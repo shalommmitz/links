@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import pysftp, yaml, socket
 
+print("Launching")
 ###### init vars
 local_host_name = socket.gethostname()
-local_links_fn = "links_"+ local_host_name +".txt"
-params = yaml.safe_load(open("params.yaml"))
+local_links_fn = "links_"+ local_host_name +".yml"
+params = yaml.safe_load(open("params.yml"))
 Hostname = params["hostname"]
 Username = params["username"]
 Password = params["password"]
@@ -16,12 +17,14 @@ with pysftp.Connection(host=Hostname, username=Username, password=Password) as s
     sftp.cwd('/downloads/links')
 
     #Upload the local links file
+    print(f'    Uploading local links file "{local_links_fn}"')
     sftp.put(local_links_fn)
 
     # Download all the none-native links files
     directory_structure = sftp.listdir_attr()
     for attr in directory_structure:
         fn = attr.filename
-        if fn.endswith(".txt") and fn!=local_links_fn:
+        if fn.endswith(".yml") and fn!=local_links_fn:
+            print(f'    Downloading remote links file "{fn}"')
             sftp.get(fn)
-
+print("Done.")
