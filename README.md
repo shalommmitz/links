@@ -19,5 +19,15 @@ Operation
 ---------
    
    1. Edit the 'links_<hostName>.yml' file to add newly found interesting links.
-   7. Run 'sync'. This will fetch the 'link_*.yml' files of the other computers and upload your local links file.
+   2. Run 'sync'. This will fetch the 'link_*.yml' files of the other computers and upload your local links file.
    3. View the unified 'links.html' file.
+
+Credits
+-------
+   
+   The YAML error handling code was taken from https://github.com/mme/vergeml
+
+License
+-------
+
+MIT
