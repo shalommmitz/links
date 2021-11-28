@@ -1,3 +1,4 @@
-hostname: YOUR.HOST.NAME
-username: YOUR_USER
+sftpHostName: YOUR.HOST.NAME
+userName: YOUR_USER
 password: YOUR_PASSWORD
+affiliated_hosts: [ ]
