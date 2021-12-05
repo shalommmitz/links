@@ -86,7 +86,8 @@ for fn in glob.glob("links_*.yml"):
     except OSError as err:
         msg = "Please ensure the file exists and you have the required access privileges."
         print(msg)
-        
+        continue
+
     for item in new_links.keys():
         if item in links.keys():
            links[item].update(new_links[item])
@@ -110,7 +111,7 @@ for i in items:
     if type(item)!=type({}):
         print(f'ERROR: the item "{item} is not a directory - Aborting')
         exit()
-    print(type(item), item)
+    # print(type(item), item)
     
     for description in item.keys():
         link = item[description]
@@ -120,6 +121,6 @@ page += '''
 </body>
 </html>
 '''
-print(page)
+#print(page)
 open("links.html", 'w').write(page)
 print("Done.")
