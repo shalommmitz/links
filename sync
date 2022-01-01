@@ -87,6 +87,9 @@ for fn in glob.glob("links_*.yml"):
         msg = "Please ensure the file exists and you have the required access privileges."
         print(msg)
         continue
+    except:
+        print(f'Unknown error while loading the file "{fn}".')
+        continue
 
     for item in new_links.keys():
         if item==item.upper():
