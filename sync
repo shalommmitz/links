@@ -44,7 +44,7 @@ with pysftp.Connection(host=sftpHostname, username=Username, password=Password) 
             fn = "links_"+ ah +".yml"
             sftp.put(fn)
 
-    # Download all the none-native links files
+    # Download all the non-native links files
     directory_structure = sftp.listdir_attr()
     for attr in directory_structure:
         fn = attr.filename
@@ -89,15 +89,16 @@ for fn in glob.glob("links_*.yml"):
         continue
 
     for item in new_links.keys():
-        if item in links.keys():
-           links[item].update(new_links[item])
+        if item==item.upper():
+            c_item = item
         else:
-           links[item] = new_links[item]
+            c_item = item.capitalize()
+        if c_item in links.keys():
+           links[c_item].update(new_links[item])
+        else:
+           links[c_item] = new_links[item]
 
-items = list(links.keys())
-items.sort()
-page = '''
-~<!DOCTYPE html>
+page = '''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -105,11 +106,13 @@ page = '''
 </head>
 <body>
 '''                          
-for i in items:
+item_keys = list(links.keys())
+item_keys.sort(key=lambda y: y.lower())
+for i in item_keys:
     page += f'{i} '
     item = links[i]
     if type(item)!=type({}):
-        print(f'ERROR: the item "{item} is not a directory - Aborting')
+        print(f'ERROR: Part of the item "{i}" is not a directory - Aborting')
         exit()
     # print(type(item), item)
     
