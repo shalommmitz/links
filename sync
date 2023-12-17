@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import pysftp, yaml, socket, glob
+import utils
 
 print("Launching")
 ###### init vars
@@ -11,21 +12,8 @@ Username = params["userName"]
 Password = params["password"]
 affiliated_hosts = params["affiliated_hosts"]
 
-###### Utility functions
-def display_err_in_file(filename, line, column, message, length=1, nlines=3): # pylint: disable=R0913
-    """Mark the source code error location in file and return a string for display"""
-    with open(filename, "r") as file:
-        return _display_err(filename, line, column, message, length, nlines, file.read())
-def _display_err(filename, line, column, message, length, nlines, content): # pylint: disable=R0913
-    """Mark the source code error location in content and return a string for display"""
-    lines = content.splitlines()
-    start = max(0, line+1-nlines)
-    res = [f"File {filename}, line {line+1}:{column+1}"]
-    res.append(str('-' * (len(res[0]) + 7)))
-    res += lines[start:line+1]
-    res += [(' ' * column) + ("^" * length), message]
-    return "\n".join(res)
-
+# Dry run - load all yaml to catch any errors early - results are ignored
+new_links_list = utils.gen_new_links_list()
 
 ###### Connect
 sftp = pysftp.Connection(host=sftpHostname, username=Username, password=Password)
@@ -62,35 +50,9 @@ sftp.close()
             
 print("    Generating unified HTML links file")
 links = { }
-for fn in glob.glob("links_*.yml"):
-    new_links = {}
-    try:
-        new_links = yaml.safe_load(open(fn))
-    except yaml.YAMLError as err:
-        print(f'ERROR: the file "{fn}" is not a valid YAML file - ignoring this file.')
-        if hasattr(err, 'problem_mark'):
-            mark = getattr(err, 'problem_mark')
-            problem = getattr(err, 'problem')
-            message = f"Could not read {fn}:"
-            message += "\n" + display_err_in_file(fn, mark.line, mark.column, problem)
-        elif hasattr(err, 'problem'):
-            problem = getattr(err, 'problem')
-            message = f"Could not read {fn}: {problem}"
-        else:
-            message = f"Could not read {fn}: YAML Error"
+new_links_list = utils.gen_new_links_list()
 
-        suggestion = f"There is a syntax error in your - please fix it and try again."
-        print(message)
-        print(suggestion)
-        continue
-    except OSError as err:
-        msg = "Please ensure the file exists and you have the required access privileges."
-        print(msg)
-        continue
-    except:
-        print(f'Unknown error while loading the file "{fn}".')
-        continue
-
+for new_links in new_links_list:
     for item in new_links.keys():
         if item==item.upper():
             c_item = item
