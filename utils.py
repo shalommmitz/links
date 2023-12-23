@@ -66,6 +66,7 @@ def get_pages(links_list):
             for descr in data[area][subarea].keys():
                 url = data[area][subarea][descr]
                 links += f'            <li><a href="{url}">{descr}</a></li>\n'
+            links = links[10:-1]    # Remove extra spaces from the first link, due to "page template"
             articles += article_template.replace("**subarea**", subarea).replace("**links**", links)
         page = page_template.replace("**AREA**", area.upper()).replace("**area**", area.lower())
         page = page.replace("**articles**", articles)
