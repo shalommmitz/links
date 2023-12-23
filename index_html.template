@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <title>Shalom’s links</title>
+    <meta name="description" content="Those are my favorite links">
+    
+    <!-- Recommended minimum -->
+    <meta property="og:title" content="Links">
+    <meta property="og:description" content="My Links">
+    
+    <!-- You could also inline the stylesheet -->
+    <link rel="stylesheet" href="style.css">
+            
+  </head>
+  <body>
+    
+    <header>
+      <h1>
+        <a href="#home">Home</a>
+      </h1>
+      <nav>
+**NAV ITEMS**
+      </nav>
+    </header>
+    
+    <main>
+**PAGES**
+    </main>
+    
+    
+    <a href="#blog" class="lightbox" id="nice-image"><img loading="lazy" alt="Tom from Myspace" src="img/tom.jpg"></a>
+    
+  </body>
+</html>
