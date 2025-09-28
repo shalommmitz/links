@@ -2,7 +2,6 @@
 import utils
 import render_html
 
-
 TEST_MODE = False
 
 print("Launching")
@@ -19,3 +18,5 @@ print("    Generating unified HTML links file")
 links = utils.get_links()
 html_str = render_html.render_html(links, title="My Links")
 open("links.html", "w", encoding="utf-8").write(html_str)
+print("Wrote links.html")
+print("Done.")

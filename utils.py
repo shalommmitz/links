@@ -79,7 +79,7 @@ def get_links():
     return ordered_links
     
 def download_and_upload_links_files():
-    ###### init vars
+    # init vars
     local_host_name = socket.gethostname()
     local_links_fn = "links_"+ local_host_name +".yml"
     params = yaml.safe_load(open("params.yml"))
@@ -87,16 +87,16 @@ def download_and_upload_links_files():
     Username = params["userName"]
     Password = params["password"]
     affiliated_hosts = params["affiliated_hosts"]
-    ###### Connect
+    # Connect
     sftp = pysftp.Connection(host=sftpHostname, username=Username, password=Password)
     print("    Connection successfully established.")
     # Switch to a remote directory
     sftp.cwd('/downloads/links')
-    #Upload the local links file
+    # Upload the local links file
     print(f'    Uploading local links file "{local_links_fn}"')
     sftp.put(local_links_fn)
 
-    #Upload the affiliated hosts file(s)
+    # Upload the affiliated hosts file(s)
     if len(affiliated_hosts):
         print(f'    Uploading affiliated-hosts links file(s) {affiliated_hosts}')
         for ah in affiliated_hosts:
@@ -119,5 +119,3 @@ def download_and_upload_links_files():
             print(f'    Downloading remote links file "{fn}"')
             sftp.get(fn)
     sftp.close()
-
-
